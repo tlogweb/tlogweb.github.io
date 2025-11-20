@@ -4,439 +4,67 @@
   <meta charset="UTF-8" />
   <title>T-log 매매일지</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="내가 쓴 주식·코인 매매일지를 분리해서 관리하는 개인 매매일지 허브입니다." />
 
-  <!-- 페이지 설명 / 검색용 -->
-  <meta name="description" content="내가 쓴 주식·코인 매매일지를 한 곳에서 관리하고, 손익을 한 눈에 확인할 수 있는 개인 매매일지 허브입니다. *사용하신 브라우저에서만 기록이 저장 됩니다." />
-
-  <style>
-    /* 전체 기본 스타일 */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1f2933 0, #020617 55%, #000 100%);
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    /* 메인 컨테이너 */
-    .container {
-      width: 100%;
-      max-width: 960px;
-      background: rgba(15, 23, 42, 0.95);
-      border-radius: 24px;
-      box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(148, 163, 184, 0.1);
-      padding: 28px 24px 24px;
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    @media (min-width: 768px) {
-      .container {
-        padding: 32px 32px 28px;
-      }
-    }
-
-    /* 헤더 영역 */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: radial-gradient(circle at 30% 20%, #151515 0, #151515 30%, #151515 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 18px;
-      color: #ecfdf5;
-      box-shadow: 0 10px 25px rgba(34, 197, 94, 0.55);
-    }
-
-    .title-block h1 {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: #f9fafb;
-      margin-bottom: 4px;
-    }
-
-    .title-block p {
-      font-size: 13px;
-      color: #9ca3af;
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: #9ca3af;
-      white-space: nowrap;
-    }
-
-    /* 메인 레이아웃 */
-    .content {
-      display: grid;
-      gap: 20px;
-    }
-
-    @media (min-width: 900px) {
-      .content {
-        grid-template-columns: 1.4fr 1fr;
-        align-items: flex-start;
-      }
-    }
-
-    /* 왼쪽: 설명 + 버튼 */
-    .intro-card {
-      padding: 20px 18px;
-      border-radius: 18px;
-      border: 1px solid rgba(75, 85, 99, 0.7);
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 55%),
-                  linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
-    }
-
-    .intro-title {
-      font-size: 17px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #f9fafb;
-    }
-
-    .intro-subtitle {
-      font-size: 13px;
-      color: #9ca3af;
-      line-height: 1.5;
-      margin-bottom: 18px;
-    }
-
-    .intro-list {
-      list-style: none;
-      margin-bottom: 18px;
-    }
-
-    .intro-list li {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #d1d5db;
-      margin-bottom: 6px;
-    }
-
-    .intro-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.22);
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-    }
-
-    .primary-btn {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #022c22;
-      font-weight: 600;
-      box-shadow:
-        0 10px 25px rgba(34, 197, 94, 0.45),
-        0 0 0 1px rgba(15, 118, 110, 0.4);
-      border: none;
-    }
-
-    .primary-btn span.icon {
-      font-size: 15px;
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      box-shadow:
-        0 14px 30px rgba(34, 197, 94, 0.6),
-        0 0 0 1px rgba(15, 118, 110, 0.6);
-    }
-
-    .primary-btn:active {
-      transform: translateY(0);
-      box-shadow:
-        0 6px 16px rgba(34, 197, 94, 0.4),
-        0 0 0 1px rgba(15, 118, 110, 0.5);
-    }
-
-    .secondary-btn {
-      border: 1px solid rgba(156, 163, 175, 0.9);
-      color: #e5e7eb;
-      background: rgba(15, 23, 42, 0.6);
-      font-weight: 500;
-    }
-
-    .secondary-btn:hover {
-      background: rgba(31, 41, 55, 0.9);
-      transform: translateY(-1px);
-    }
-
-    .secondary-btn:active {
-      transform: translateY(0);
-    }
-
-    /* 오른쪽: 요약 스탯 카드 */
-    .stat-card {
-      padding: 18px 16px 16px;
-      border-radius: 18px;
-      border: 1px solid rgba(75, 85, 99, 0.7);
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
-    }
-
-    .stat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .stat-header-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #9ca3af;
-    }
-
-    .stat-header-pill {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 0.12);
-      color: #bbf7d0;
-      border: 1px solid rgba(34, 197, 94, 0.4);
-    }
-
-    .stat-main {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .stat-item {
-      padding: 10px 10px 9px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-
-    .stat-value {
-      font-size: 16px;
-      font-weight: 600;
-      color: #f9fafb;
-      margin-bottom: 2px;
-    }
-
-    .stat-sub {
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .stat-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(75, 85, 99, 0.8);
-      margin-top: 2px;
-    }
-
-    .stat-footer-text {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-
-    .pill-mini {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      color: #d1d5db;
-    }
-
-    .accent-profit {
-      color: #4ade80;
-    }
-
-    .accent-loss {
-      color: #f97373;
-    }
-
-    /* 푸터 */
-    .footer {
-      margin-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .footer a {
-      color: #9ca3af;
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <!-- 지금 사용 중인 다크 테마 CSS 파일 경로로 맞춰주세요 -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
-    <!-- 헤더 -->
-    <header class="header">
-      <div class="logo-group">
-        <div class="logo-badge">F</div>
-        <div class="title-block">
-          <h1>T-log 매매일지</h1>
-          <p>내가 쓴 주식·코인 매매일지를 한 곳에서 관리하는 개인 대시보드</p>
-        </div>
-      </div>
+  <div class="container">
+    <!-- 상단 바 -->
+    <header class="topbar">
+      <div class="brand">T-log 매매일지</div>
+
+      <nav class="nav">
+        <!-- 상단 네비에 바로 접근 버튼 두 개 -->
+        <a href="https://tlogweb.github.io/tlogstocks/" class="btn btn-secondary btn-sm">주식 매매일지</a>
+        <a href="https://tlogweb.github.io/tlogcrypto/" class="btn btn-primary btn-sm">코인 매매일지</a>
+        <a href="t.me/manzo_won1" class="btn btn-primary btn-sm">오류 제보</a>
+      </nav>
     </header>
 
-    <!-- 메인 콘텐츠 -->
-    <section class="content">
-      <!-- 왼쪽: 소개 + 버튼 -->
-      <article class="intro-card">
-        <h2 class="intro-title">내 매매일지</h2>
-        <p class="intro-subtitle">
-          하루하루 기록한 나만의 주식·코인 매매일지를 분리해서 저장하고,<br />
-          손익과 손익률을 한 눈에 확인할 수 있는 개인용 매매일지 허브입니다.
-          <br />*모바일에서는 화면 깨짐 현상이 있습니다.
-          <br />*사용하신 브라우저 로컬에 저장 됩니다.
-        </p>
+    <!-- 한 줄 설명 -->
+    <p class="subtitle">
+      <strong>본인이 작성한 매매일지</strong>만 조회됩니다. 다른 사용자의 기록은 보이지 않습니다.
+    </p>
 
-        <ul class="intro-list">
-          <li>
-            <span class="intro-dot"></span>
-            <span>주식 일지 · 코인 일지를 각각 따로 작성 및 조회</span>
-          </li>
-          <li>
-            <span class="intro-dot"></span>
-            <span>내가 작성한 기록만 보이고, 다른 사람 일지는 보이지 않음</span>
-          </li>
-          <li>
-            <span class="intro-dot"></span>
-            <span>손익, 손익률, 승률 등 내 매매 스타일을 숫자로 확인</span>
-          </li>
-        </ul>
+    <!-- 메인 카드: 유형 선택 -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">매매일지 유형 선택</div>
+        <span class="badge">my logs only</span>
+      </div>
 
-        <div class="button-row">
-          <!-- 🔗 TODO: 실제 '주식 매매일지' 페이지 주소로 href 수정 -->
-          <!-- 예: /stocks/ 또는 /stock-journal/ 등 -->
-          <a href="https://tlogweb.github.io/tlogstocks/" class="primary-btn">
-            <span>주식 매매일지</span>
-          </a>
+      <p class="caption" style="margin-bottom: 16px;">
+        주식 매매일지와 코인 매매일지를 분리해서 관리합니다. 아래에서 작성/조회할 일지 종류를 선택하세요.
+      </p>
 
-          <!-- 🔗 TODO: 실제 '코인 매매일지' 페이지 주소로 href 수정 -->
-          <!-- 예: /crypto/ 또는 /coin-journal/ 등 -->
-          <a href="https://tlogweb.github.io/tlogcrypto/" class="secondary-btn">
-            코인 매매일지
-          </a>
-        </div>
-      </article>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <!-- 실제 주식 일지 페이지 주소로 수정 -->
+        <a href="https://tlogweb.github.io/tlogstocks/" class="btn btn-linklike">
+          주식 매매일지
+        </a>
 
-      <!-- 오른쪽: 요약 스탯 (예시 숫자, 실제 데이터는 "내 계정" 기준으로 계산) -->
-      <aside class="stat-card" id="today-summary">
-        <div class="stat-header">
-          <div class="stat-header-title">예시</div>
-          <div class="stat-header-pill">데모 값 </div>
-        </div>
-
-        <div class="stat-main">
-          <div class="stat-item">
-            <div class="stat-label">오늘 작성한 일지 수</div>
-            <div class="stat-value">4건</div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-label">오늘 손익률 합계</div>
-            <div class="stat-value accent-profit">+1.8%</div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-label">이번 달 누적 손익률</div>
-            <div class="stat-value accent-profit">+5.2%</div>
-          </div>
-
-          <div class="stat-item">
-            <div class="stat-label">연속 기록 일수</div>
-            <div class="stat-value">12일</div>
-          </div>
+        <!-- 실제 코인 일지 페이지 주소로 수정 -->
+        <a href="https://tlogweb.github.io/tlogcrypto/" class="btn btn-secondary">
+          코인 매매일지
+        </a>
+      </div>
     </section>
 
-    <!-- 푸터 -->
-    <footer class="footer">
-      <div>© <span id="year"></span> tlog · my stock &amp; crypto journal</div>
-      <div>
-        <a href="https://tlogweb.github.io/tlogstocks/">주식 일지</a> · <a href="https://tlogweb.github.io/tlogcrypto/">코인 일지</a>
+    <!-- 사용 안내 카드 (숫자 예시 없이 설명만) -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title">사용 안내</div>
       </div>
-    </footer>
-  </main>
 
-  <script>
-    // 푸터 년도 자동 업데이트
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+      <ul class="caption" style="line-height: 1.6; padding-left: 18px; list-style: disc;">
+        <li>각 일지 페이지에서 날짜, 종목(또는 코인), 매수·매도, 손익 등을 기록합니다.</li>
+        <li>손익, 손익률, 차트·통계 등은 각 일지 페이지에서 실제 데이터로 계산해 표시합니다.</li>
+        <li>다른 사용자의 매매일지는 조회할 수 없고, 본인이 작성한 기록만 보여줍니다.</li>
+      </ul>
+    </section>
+  </div>
 </body>
 </html>
 
