@@ -2,12 +2,455 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>fnxm 홈</title>
+  <title>fnxm My Trading Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 페이지 설명 / 검색용 -->
+  <meta name="description" content="내가 쓴 주식·코인 매매일지를 한 곳에서 관리하고, 손익을 한 눈에 확인할 수 있는 개인 매매일지 허브입니다." />
+
+  <style>
+    /* 전체 기본 스타일 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2933 0, #020617 55%, #000 100%);
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* 메인 컨테이너 */
+    .container {
+      width: 100%;
+      max-width: 960px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 24px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(148, 163, 184, 0.1);
+      padding: 28px 24px 24px;
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 32px 32px 28px;
+      }
+    }
+
+    /* 헤더 영역 */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 30% 20%, #4ade80 0, #22c55e 30%, #14532d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #ecfdf5;
+      box-shadow: 0 10px 25px rgba(34, 197, 94, 0.55);
+    }
+
+    .title-block h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #f9fafb;
+      margin-bottom: 4px;
+    }
+
+    .title-block p {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #9ca3af;
+      white-space: nowrap;
+    }
+
+    /* 메인 레이아웃 */
+    .content {
+      display: grid;
+      gap: 20px;
+    }
+
+    @media (min-width: 900px) {
+      .content {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: flex-start;
+      }
+    }
+
+    /* 왼쪽: 설명 + 버튼 */
+    .intro-card {
+      padding: 20px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(75, 85, 99, 0.7);
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.16), transparent 55%),
+                  linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
+    }
+
+    .intro-title {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #f9fafb;
+    }
+
+    .intro-subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .intro-list {
+      list-style: none;
+      margin-bottom: 18px;
+    }
+
+    .intro-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #d1d5db;
+      margin-bottom: 6px;
+    }
+
+    .intro-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.22);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 600;
+      box-shadow:
+        0 10px 25px rgba(34, 197, 94, 0.45),
+        0 0 0 1px rgba(15, 118, 110, 0.4);
+      border: none;
+    }
+
+    .primary-btn span.icon {
+      font-size: 15px;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 14px 30px rgba(34, 197, 94, 0.6),
+        0 0 0 1px rgba(15, 118, 110, 0.6);
+    }
+
+    .primary-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        0 6px 16px rgba(34, 197, 94, 0.4),
+        0 0 0 1px rgba(15, 118, 110, 0.5);
+    }
+
+    .secondary-btn {
+      border: 1px solid rgba(156, 163, 175, 0.9);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.6);
+      font-weight: 500;
+    }
+
+    .secondary-btn:hover {
+      background: rgba(31, 41, 55, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .secondary-btn:active {
+      transform: translateY(0);
+    }
+
+    /* 오른쪽: 요약 스탯 카드 */
+    .stat-card {
+      padding: 18px 16px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(75, 85, 99, 0.7);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .stat-header-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+    }
+
+    .stat-header-pill {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .stat-main {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .stat-item {
+      padding: 10px 10px 9px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #f9fafb;
+      margin-bottom: 2px;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .stat-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(75, 85, 99, 0.8);
+      margin-top: 2px;
+    }
+
+    .stat-footer-text {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .pill-mini {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #d1d5db;
+    }
+
+    .accent-profit {
+      color: #4ade80;
+    }
+
+    .accent-loss {
+      color: #f97373;
+    }
+
+    /* 푸터 */
+    .footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .footer a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <h1>T-log</h1>
-  <p>T-log 매매일지</p>
-  <p><a href="https://tlogweb.github.io/tlogcrypto/">코인 매매일지 </a></p>
-  <p><a href="https://tlogweb.github.io/tlogstocks/">주식 매매일지 </a></p>
+  <main class="container">
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="logo-group">
+        <div class="logo-badge">F</div>
+        <div class="title-block">
+          <h1>fnxm My Trading Journal</h1>
+          <p>내가 쓴 주식·코인 매매일지를 한 곳에서 관리하는 개인 대시보드</p>
+        </div>
+      </div>
+      <div class="tag">my logs only</div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <section class="content">
+      <!-- 왼쪽: 소개 + 버튼 -->
+      <article class="intro-card">
+        <h2 class="intro-title">내 매매일지, 주식과 코인 분리 관리</h2>
+        <p class="intro-subtitle">
+          하루하루 기록한 나만의 주식·코인 매매일지를 분리해서 저장하고,<br />
+          손익과 손익률을 한 눈에 확인할 수 있는 개인용 매매일지 허브입니다.
+        </p>
+
+        <ul class="intro-list">
+          <li>
+            <span class="intro-dot"></span>
+            <span>주식 일지 · 코인 일지를 각각 따로 작성 및 조회</span>
+          </li>
+          <li>
+            <span class="intro-dot"></span>
+            <span>내 계정으로 작성한 기록만 보이고, 다른 사람 일지는 보이지 않음</span>
+          </li>
+          <li>
+            <span class="intro-dot"></span>
+            <span>손익, 손익률, 승률 등 내 매매 스타일을 숫자로 확인</span>
+          </li>
+        </ul>
+
+        <div class="button-row">
+          <!-- 🔗 TODO: 실제 '주식 매매일지' 페이지 주소로 href 수정 -->
+          <!-- 예: /stocks/ 또는 /stock-journal/ 등 -->
+          <a href="/stock-diary/" class="primary-btn">
+            <span class="icon">📊</span>
+            <span>내 주식 매매일지</span>
+          </a>
+
+          <!-- 🔗 TODO: 실제 '코인 매매일지' 페이지 주소로 href 수정 -->
+          <!-- 예: /crypto/ 또는 /coin-journal/ 등 -->
+          <a href="/coin-diary/" class="secondary-btn">
+            내 코인 매매일지
+          </a>
+        </div>
+      </article>
+
+      <!-- 오른쪽: 요약 스탯 (예시 숫자, 실제 데이터는 "내 계정" 기준으로 계산) -->
+      <aside class="stat-card" id="today-summary">
+        <div class="stat-header">
+          <div class="stat-header-title">My snapshot</div>
+          <div class="stat-header-pill">데모 값 · 내 계정 기준 예시</div>
+        </div>
+
+        <div class="stat-main">
+          <div class="stat-item">
+            <div class="stat-label">오늘 작성한 일지 수</div>
+            <div class="stat-value">4건</div>
+            <div class="stat-sub">주식 3건 · 코인 1건 · 예시</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-label">오늘 손익률 합계</div>
+            <div class="stat-value accent-profit">+1.8%</div>
+            <div class="stat-sub">내 계좌 기준 · 예시 값</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-label">이번 달 누적 손익률</div>
+            <div class="stat-value accent-profit">+5.2%</div>
+            <div class="stat-sub">주식 + 코인 합산 · 예시</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-label">연속 기록 일수</div>
+            <div class="stat-value">12일</div>
+            <div class="stat-sub">주말·공휴일 제외 기준 · 예시</div>
+          </div>
+        </div>
+
+        <div class="stat-footer">
+          <div class="stat-footer-text">
+            실제 숫자는 로그인된 내 계정에서 작성한 매매일지를<br />
+            자동 집계해서 보여주도록 연동할 수 있습니다.
+          </div>
+          <div class="pill-mini">my journal stats</div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+      <div>© <span id="year"></span> fnxm · my stock &amp; crypto journal</div>
+      <div>
+        <a href="/stock-diary/">내 주식 일지</a> · <a href="/coin-diary/">내 코인 일지</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // 푸터 년도 자동 업데이트
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
+
