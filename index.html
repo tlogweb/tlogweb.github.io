@@ -2,11 +2,11 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>fnxm My Trading Journal</title>
+  <title>T-log 매매일지</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- 페이지 설명 / 검색용 -->
-  <meta name="description" content="내가 쓴 주식·코인 매매일지를 한 곳에서 관리하고, 손익을 한 눈에 확인할 수 있는 개인 매매일지 허브입니다." />
+  <meta name="description" content="내가 쓴 주식·코인 매매일지를 한 곳에서 관리하고, 손익을 한 눈에 확인할 수 있는 개인 매매일지 허브입니다. *사용하신 브라우저에서만 기록이 저장 됩니다." />
 
   <style>
     /* 전체 기본 스타일 */
@@ -69,7 +69,7 @@
       width: 40px;
       height: 40px;
       border-radius: 14px;
-      background: radial-gradient(circle at 30% 20%, #4ade80 0, #22c55e 30%, #14532d 100%);
+      background: radial-gradient(circle at 30% 20%, #151515 0, #151515 30%, #151515 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -358,10 +358,12 @@
     <section class="content">
       <!-- 왼쪽: 소개 + 버튼 -->
       <article class="intro-card">
-        <h2 class="intro-title">내 매매일지, 주식과 코인 분리 관리</h2>
+        <h2 class="intro-title">내 매매일지</h2>
         <p class="intro-subtitle">
           하루하루 기록한 나만의 주식·코인 매매일지를 분리해서 저장하고,<br />
           손익과 손익률을 한 눈에 확인할 수 있는 개인용 매매일지 허브입니다.
+          *모바일에서는 화면 깨짐 현상이 있습니다.
+          *사용하신 브라우저 로컬에 저장 됩니다.
         </p>
 
         <ul class="intro-list">
@@ -371,7 +373,7 @@
           </li>
           <li>
             <span class="intro-dot"></span>
-            <span>내 계정으로 작성한 기록만 보이고, 다른 사람 일지는 보이지 않음</span>
+            <span>내가 작성한 기록만 보이고, 다른 사람 일지는 보이지 않음</span>
           </li>
           <li>
             <span class="intro-dot"></span>
@@ -382,14 +384,13 @@
         <div class="button-row">
           <!-- 🔗 TODO: 실제 '주식 매매일지' 페이지 주소로 href 수정 -->
           <!-- 예: /stocks/ 또는 /stock-journal/ 등 -->
-          <a href="/stock-diary/" class="primary-btn">
-            <span class="icon">📊</span>
-            <span>내 주식 매매일지</span>
+          <a href="https://tlogweb.github.io/tlogstocks/" class="primary-btn">
+            <span>주식 매매일지</span>
           </a>
 
           <!-- 🔗 TODO: 실제 '코인 매매일지' 페이지 주소로 href 수정 -->
           <!-- 예: /crypto/ 또는 /coin-journal/ 등 -->
-          <a href="/coin-diary/" class="secondary-btn">
+          <a href="/https://tlogweb.github.io/tlogcrypto//" class="secondary-btn">
             내 코인 매매일지
           </a>
         </div>
